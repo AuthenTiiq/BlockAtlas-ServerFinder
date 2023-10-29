@@ -6,7 +6,8 @@
   "blockatlas.loadmore": "Load more",
   "blockatlas.title": "Discover Servers by BlockAtlas ",
   "blockatlas.vote": "Vote",
-  "blockatlas.switch": "Switch server",
+  "blockatlas.switch": "Switch servers",
   "blockatlas.addToList": "Add My Server",
+  "blockatlas.refresh": "Refresh",
   "multiplayer.status.player_count": ""
 }

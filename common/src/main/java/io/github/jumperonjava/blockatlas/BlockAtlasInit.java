@@ -1,5 +1,7 @@
 package io.github.jumperonjava.blockatlas;
 
+import io.github.jumperonjava.blockatlas.api.EmptyHandler;
+import io.github.jumperonjava.blockatlas.api.ServerApi;
 import io.github.jumperonjava.blockatlas.api.blockatlas.BlockAtlasApi;
 import io.github.jumperonjava.blockatlas.api.motd.PingWithCache;
 import net.minecraft.client.MinecraftClient;
@@ -13,7 +15,7 @@ import org.slf4j.LoggerFactory;
 
 
 public class BlockAtlasInit{
-    public static io.github.jumperonjava.blockatlas.api.ServerApi api;
+    public static ServerApi api;
     public static final MinecraftClient client = MinecraftClient.getInstance();
     public static final Logger LOGGER = LoggerFactory.getLogger("BlockAtlas");
     public static void disconnect(){

@@ -9,7 +9,7 @@ architectury {
 }
 
 loom{
-    accessWidenerPath = file("/src/main/resources/blockatlas.accesswidener")
+    accessWidenerPath = file("../common/src/main/resources/blockatlas.accesswidener")
 }
 
 publishing {

@@ -1,9 +1,10 @@
 package io.github.jumperonjava.blockatlas.api.blockatlas;
 
 import io.github.jumperonjava.blockatlas.api.*;
+import io.github.jumperonjava.blockatlas.api.cachingapi.CachingTag;
 import net.minecraft.text.Text;
 
-public class BlockAtlasTag implements io.github.jumperonjava.blockatlas.api.Tag {
+public class BlockAtlasTag implements Tag {
     public static final Tag MAIN_PAGE_TAG = new CachingTag(new BlockAtlasTag(""){
         @Override
         public Text getDisplayName() {

@@ -41,19 +41,28 @@ processResources {
 
 shadowJar {
     exclude "fabric.mod.json"
+    mustRunAfter  ":fabric:compileJava"
+    mustRunAfter  ":fabric:processResources"
 
     configurations = [project.configurations.shadowCommon]
     archiveClassifier.set("dev-shadow")
 }
 
 remapJar {
+    dependsOn ":fabric:shadowJar"
     archiveFileName = "${archivesBaseName}-${project.version}-${rootProject.minecraft_version}-forge.jar"
+    buildDir = "${rootProject.rootDir}/.finalbuilds"
     inputFile.set shadowJar.archiveFile
     dependsOn shadowJar
     archiveClassifier.set(null)
 }
+remapSourcesJar{
+    mustRunAfter ":fabric:sourcesJar"
+}
 
 jar {
+    mustRunAfter ":fabric:compileJava"
+    mustRunAfter  ":fabric:processResources"
     archiveClassifier.set("dev")
 }
 
