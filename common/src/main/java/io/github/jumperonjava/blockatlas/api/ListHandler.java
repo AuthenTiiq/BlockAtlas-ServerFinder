@@ -5,4 +5,5 @@ public interface ListHandler<T> {
     void tryLoadMoreCallback(Runnable loadMoreCallback);
     void clearElements(boolean resetScroll);
     void sendError(Throwable error);
+    default void refreshCallback(Runnable refreshCallback){}
 }

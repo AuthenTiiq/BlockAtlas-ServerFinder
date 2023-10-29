@@ -52,6 +52,7 @@ public class ServerScreen extends Screen {
 
     private Server selectedServer;
     private boolean smallmode=false;
+    private Runnable refreshTagCallback;
 
     @Override
     public void render(MatrixStack context, int mouseX, int mouseY, float delta) {
@@ -103,7 +104,7 @@ public class ServerScreen extends Screen {
         var listWidth = SERVER_LIST_SIZE+TAG_LIST_SIZE;
         //var axis = new AxisGridWidget(width/2-(listWidth)/2,height-bottom+4, listWidth,20, AxisGridWidget.DisplayAxis.HORIZONTAL);
         //buttons themselves
-        var buttonSize = (listWidth-44)/3-4;
+        var buttonSize = (listWidth-44-64)/3-4;
         var directConnect = new ButtonWidgetBuilder(Text.translatable("selectServer.select"),(b)->{
             connect(selectedServer);
         }).dimensions(0,0,buttonSize,20).build();
@@ -113,30 +114,19 @@ public class ServerScreen extends Screen {
                 Util.getOperatingSystem().open(new URL(selectedServer.getVoteLink()));
             }
             catch (Exception e){e.printStackTrace();}
-            new Timer().schedule(new TimerTask(){
+            scheduleUnfocus(b);
 
-                @Override
-                public void run() {
-                    b.setFocused(false);
-                }
-            },50);
-            setFocused(null);
         }).dimensions(0,0,buttonSize,20).build();
         var addServerToList = new ButtonWidgetBuilder(Text.translatable("blockatlas.addToList"),(b)->{
             try{
                 Util.getOperatingSystem().open(new URL("https://blockatlas.net/add-server"));
             }
             catch (Exception e){e.printStackTrace();}
-            new Timer().schedule(new TimerTask(){
-
-                @Override
-                public void run() {
-                    b.setFocused(false);
-                }
-            },50);
-            setFocused(null);
+            scheduleUnfocus(b);
         }).dimensions(width/2+listWidth/2-100,2,buttonSize,20).build();
-        var close = new ButtonWidgetBuilder(Text.translatable("gui.back"),b->this.close()).width(40).build();
+        var close = new ButtonWidgetBuilder(Text.translatable("gui.back"),b->{
+            this.close();
+        }).width(40).build();
         this.deactivateButtons = () ->{
             directConnect.active=false;
             addServer.active=false;
@@ -147,15 +137,23 @@ public class ServerScreen extends Screen {
             addServer.active=true;
             vote.active=true;
         };
+        var refresh = new ButtonWidgetBuilder(Text.translatable("blockatlas.refresh"),b->{
+            this.refresh();
+            scheduleUnfocus(b);
+        }).width(60).build();
 
         directConnect.setX(width/2-listWidth/2);
         addServer.setX(width/2-listWidth/2+(4+buttonSize)*1);
         vote.setX(width/2-listWidth/2+(4+buttonSize)*2);
-        close.setX(width/2-listWidth/2+(4+buttonSize)*3);
+        refresh.setX(width/2-listWidth/2+(4+buttonSize)*3);
+        close.setX(width/2-listWidth/2+(4+buttonSize)*3+64);
+
         directConnect.setY(height-bottom+4);
         addServer.setY(height-bottom+4);
         vote.setY(height-bottom+4);
+        refresh.setY(height-bottom+4);
         close.setY(height-bottom+4);
+
         deactivateButtons.run();
 
         addDrawableChild(tagListWidget);
@@ -164,9 +162,25 @@ public class ServerScreen extends Screen {
         addDrawableChild((directConnect));
         addDrawableChild((addServer));
         addDrawableChild((vote));
+        addDrawableChild((refresh));
         addDrawableChild((close));
         //axis.refreshPositions();
         addDrawableChild((addServerToList));
+    }
+
+    private void scheduleUnfocus(ButtonWidget b) {
+        new Timer().schedule(new TimerTask(){
+
+            @Override
+            public void run() {
+                b.setFocused(false);
+            }
+        },50);
+        setFocused(null);
+    }
+
+    private void refresh() {
+        refreshTagCallback.run();
     }
 
     private void connect(Server selectedServer) {
@@ -273,6 +287,10 @@ public class ServerScreen extends Screen {
         }
         public void tryLoadMoreCallback(Runnable loadMoreCallback) {
             target.loadMore = loadMoreCallback;
+        }
+
+        public void refreshCallback(Runnable refreshCallback) {
+            target.refreshTagCallback=refreshCallback;
         }
 
         @Override

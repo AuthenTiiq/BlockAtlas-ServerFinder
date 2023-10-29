@@ -1,6 +1,7 @@
 package io.github.jumperonjava.blockatlas.api.blockatlas;
 
 import io.github.jumperonjava.blockatlas.api.*;
+import io.github.jumperonjava.blockatlas.api.cachingapi.CachingTag;
 
 import java.util.*;
 
@@ -20,8 +21,9 @@ public class BlockAtlasApi implements ServerApi {
             tagList.add(BlockAtlasTag.MAIN_PAGE_TAG);
             response.unique_tags.forEach(tagStr ->{
                 //tagHandler.tryLoadMoreCallback(this::getTags);
-                tagList.add( new CachingTag(new BlockAtlasTag(tagStr)));
+                tagList.add(new CachingTag(new BlockAtlasTag(tagStr)));
             });
+            tagList.forEach(tagHandler::addElement);
         }
         catch (Exception e){e.printStackTrace();}
     }

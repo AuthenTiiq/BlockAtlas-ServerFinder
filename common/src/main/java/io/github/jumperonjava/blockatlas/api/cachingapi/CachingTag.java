@@ -1,9 +1,16 @@
-package io.github.jumperonjava.blockatlas.api;
+package io.github.jumperonjava.blockatlas.api.cachingapi;
 
 import net.minecraft.text.MutableText;
+import io.github.jumperonjava.blockatlas.api.EmptyHandler;
+import io.github.jumperonjava.blockatlas.api.ListHandler;
+import io.github.jumperonjava.blockatlas.api.Server;
+import io.github.jumperonjava.blockatlas.api.Tag;
+import net.minecraft.text.Text;
 
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class CachingTag implements Tag {
     private final Tag tag;
@@ -18,12 +25,17 @@ public class CachingTag implements Tag {
     }
     @Override
     public void setServersFromTag(ListHandler<Server> handler) {
+        handler.refreshCallback(()->{
+            proxy.clear();
+            proxy.setServersFromTag(handler);
+            tag.setServersFromTag(proxy);
+        });
         handler.clearElements(true);
         proxy.setServersFromTag(handler);
     }
     static class ProxyServerHandler implements ListHandler<Server> {
         private ListHandler<Server> realHandler = null;
-        private final List<Server> queue = new LinkedList<>();
+        private final Set<Server> queue = new LinkedHashSet<>();
         private Runnable callback;
 
         private void setServersFromTag(ListHandler<Server> h){
@@ -63,6 +75,10 @@ public class CachingTag implements Tag {
             if(realHandler ==null)
                 return;
             realHandler.sendError(error);
+        }
+
+        public void clear() {
+            queue.clear();
         }
     }
 }
