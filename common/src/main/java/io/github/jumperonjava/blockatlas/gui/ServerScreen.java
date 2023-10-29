@@ -104,7 +104,7 @@ public class ServerScreen extends Screen {
         //var axis = new AxisGridWidget(width/2-(listWidth)/2,height-bottom+4, listWidth,20, AxisGridWidget.DisplayAxis.HORIZONTAL);
         //buttons themselves
         var buttonSize = (listWidth-44-64)/3-4;
-        var directConnect = new ButtonWidget.Builder(Text.translatable("selectServer.select"),(b)->{
+        var directConnect = new ButtonWidgetBuilder(Text.translatable("selectServer.select"),(b)->{
             connect(selectedServer);
         }).dimensions(0,0,buttonSize,20).build();
         var addServer = new ButtonWidgetBuilder(Text.translatable("selectServer.add"),(b)->{addServer(selectedServer);}).dimensions(0,0,buttonSize,20).build();
@@ -136,18 +136,20 @@ public class ServerScreen extends Screen {
             addServer.active=true;
             vote.active=true;
         };
-        var refresh = new ButtonWidget.Builder(Text.translatable("blockatlas.refresh"),b->{
+        var refresh = new ButtonWidgetBuilder(Text.translatable("blockatlas.refresh"),b->{
             this.refresh();
             scheduleUnfocus(b);
         }).width(60).build();
         directConnect.x=width/2-listWidth/2;
         addServer.x=width/2-listWidth/2+(4+buttonSize)*1;
         vote.x=width/2-listWidth/2+(4+buttonSize)*2;
-        refresh.x=width/2-listWIdth/2+(4+buttonSize)*3
-        close.x=width/2-listWidth/2+(4+buttonSize)*3+60;
+        refresh.x=width/2-listWidth/2+(4+buttonSize)*3;
+        close.x=width/2-listWidth/2+(4+buttonSize)*3+64;
+
         directConnect.y = height-bottom+4;
         addServer.y = height-bottom+4;
         vote.y = height-bottom+4;
+        refresh.y = height-bottom+4;
         close.y = height-bottom+4;
         deactivateButtons.run();
 
@@ -157,6 +159,7 @@ public class ServerScreen extends Screen {
         addDrawableChild((directConnect));
         addDrawableChild((addServer));
         addDrawableChild((vote));
+        addDrawableChild((refresh));
         addDrawableChild((close));
         //axis.refreshPositions();
         addDrawableChild((addServerToList));
