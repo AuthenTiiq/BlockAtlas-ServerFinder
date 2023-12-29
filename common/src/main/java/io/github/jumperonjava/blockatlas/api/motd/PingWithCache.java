@@ -87,7 +87,10 @@ public class PingWithCache {
         motdCache.put(serverInfo.address,serverInfo);
         updateCache();
     }
-
+    public static void resetCache(){
+        motdCache.clear();
+        failed.clear();
+    }
     private static void updateCache() {
         FileReadWrite.write(getCacheDirectory(),Json.GSON.toJson(motdCache));
     }

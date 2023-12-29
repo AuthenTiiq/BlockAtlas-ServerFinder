@@ -4,6 +4,7 @@ import io.github.jumperonjava.blockatlas.api.EmptyHandler;
 import io.github.jumperonjava.blockatlas.api.ListHandler;
 import io.github.jumperonjava.blockatlas.api.Server;
 import io.github.jumperonjava.blockatlas.api.Tag;
+import io.github.jumperonjava.blockatlas.api.motd.PingWithCache;
 import net.minecraft.text.Text;
 
 import java.util.LinkedHashSet;
@@ -28,6 +29,7 @@ public class CachingTag implements Tag {
             proxy.clear();
             proxy.setServersFromTag(handler);
             tag.setServersFromTag(proxy);
+            PingWithCache.resetCache();
         });
         handler.clearElements(true);
         proxy.setServersFromTag(handler);

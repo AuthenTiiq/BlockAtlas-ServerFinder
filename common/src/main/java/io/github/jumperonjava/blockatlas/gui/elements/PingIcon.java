@@ -109,7 +109,7 @@ public class PingIcon implements Drawable, Element {
         context.drawGuiTexture(identifier, x - 10, y, 10, 8);
         //context.fill(x,y,x-10,y+8,0xFFFFFF00);
         if(isMouseOver(mouseX,mouseY)){
-            var pingtext = Text.literal(String.valueOf(server == null ? "Failed to get ping" : server.ping+" ms"));
+            var pingtext = Text.literal(String.valueOf(server == null ? Text.translatable("blockatlas.pingfail") : server.ping+" ms"));
             context.drawTooltip(client.textRenderer,pingtext,mouseX-20-client.textRenderer.getWidth(pingtext.getString()),mouseY+12);
         }
 
