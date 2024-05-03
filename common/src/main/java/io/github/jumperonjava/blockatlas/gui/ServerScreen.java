@@ -179,7 +179,7 @@ public class ServerScreen extends Screen {
         tagListWidget.children().clear();
         api.getTags().forEach(tag -> {
             var e = new ScrollListWidget.ScrollListEntry();
-            e.addDrawableChild(new ButtonWidget.Builder(tag.getDisplayName(),b->{tag.setServersFromTag(handler);e.setMeActive();deactivateButtons.run();}).dimensions(0,0,TAG_LIST_SIZE-4,20).build(),true);
+            e.addDrawableChild(new ButtonWidget.Builder(tag.getDisplayName(),b->{tag.setServersFromTag(handler);e.setMeActive();deactivateButtons.run();}).dimensions(0,0,TAG_LIST_SIZE-4,20).build(),true,null);
             tagListWidget.addEntry(e);
         });
     }
