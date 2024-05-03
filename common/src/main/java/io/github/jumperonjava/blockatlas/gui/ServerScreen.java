@@ -171,7 +171,7 @@ public class ServerScreen extends Screen {
     private void connect(Server selectedServer) {
         BlockAtlasInit.disconnect();
         var t = (selectedServer.server_ip()+":25565").split(":");
-        ConnectScreen.connect(this,client,new ServerAddress(t[0], Integer.parseInt(t[1])),new ServerInfo("",selectedServer.server_ip(), ServerInfo.ServerType.OTHER),true);
+        ConnectScreen.connect(this,client,new ServerAddress(t[0],Integer.parseInt(t[1])),new ServerInfo("",selectedServer.server_ip(),ServerInfo.ServerType.OTHER),true,null);
         selectedServer.onConnected();
     }
 

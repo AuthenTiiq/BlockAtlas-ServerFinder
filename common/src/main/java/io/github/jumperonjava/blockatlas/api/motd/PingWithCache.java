@@ -14,7 +14,7 @@ import java.time.Instant;
 import java.util.*;
 
 public class PingWithCache {
-    public static final Text FAILED_TEXT = Text.translatable("blockatlas.motdfail").setStyle(Style.EMPTY.withColor(TextColor.parse("red")));
+    public static final Text FAILED_TEXT = Text.translatable("blockatlas.motdfail").setStyle(Style.EMPTY.withColor(TextColor.fromRgb(255))); // le parse ne marche plus en 1.20.6 ça me clc
     public static final Text LOADING_TEXT = Text.translatable("Loading description...");
     private static Set<String> requiredUpdate = new HashSet<>();
     private static Map<String, ServerInfo> motdCache = new HashMap<>();
